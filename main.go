@@ -1,15 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
-	. "github.com/gopherWxf/gopher-gin/src/classes"
+	"github.com/gopherWxf/gopher-gin/src/classes"
+	"github.com/gopherWxf/gopher-gin/src/goft"
 )
 
 func main() {
-	r := gin.New()
-	NewIndexClass(r).Build()
-	NewUserClass(r).Build()
-	fmt.Println("http://127.0.0.1")
-	r.Run(":80")
+	goft.Ignite().Mount(
+		classes.NewIndexClass(),
+		classes.NewUserClass(),
+	).Launch()
 }

@@ -1,16 +1,19 @@
 package classes
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/gopherWxf/gopher-gin/src/goft"
+)
 
 type UserClass struct {
-	*gin.Engine
 }
 
-func NewUserClass(engine *gin.Engine) *UserClass {
-	return &UserClass{Engine: engine}
+func NewUserClass() *UserClass {
+	return &UserClass{}
 }
-func (this *UserClass) Build() {
-	this.Handle("GET", "/user", this.GetUser())
+
+func (this *UserClass) Build(goft *goft.Goft) {
+	goft.Handle("GET", "/user", this.GetUser())
 }
 
 func (this *UserClass) GetUser() gin.HandlerFunc {
