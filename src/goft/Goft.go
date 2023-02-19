@@ -7,6 +7,7 @@ import (
 
 type Goft struct {
 	*gin.Engine
+	g *gin.RouterGroup
 }
 
 func Ignite() *Goft {
@@ -16,9 +17,14 @@ func (this *Goft) Launch() {
 	fmt.Println("http://127.0.0.1")
 	this.Run(":80")
 }
-func (this *Goft) Mount(classes ...IClass) *Goft {
+func (this *Goft) Mount(group string, classes ...IClass) *Goft {
+	this.g = this.Group(group)
 	for _, class := range classes {
 		class.Build(this)
 	}
+	return this
+}
+func (this *Goft) Handle(httpMethod, relativePath string, handlers ...gin.HandlerFunc) *Goft {
+	this.g.Handle(httpMethod, relativePath, handlers...)
 	return this
 }

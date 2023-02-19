@@ -6,8 +6,14 @@ import (
 )
 
 func main() {
-	goft.Ignite().Mount(
-		classes.NewIndexClass(),
-		classes.NewUserClass(),
-	).Launch()
+	goft.Ignite().
+		Mount(
+			"v1",
+			classes.NewIndexClass(),
+		).
+		Mount(
+			"v2",
+			classes.NewUserClass(),
+		).
+		Launch()
 }
