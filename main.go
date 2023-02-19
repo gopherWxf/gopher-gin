@@ -9,7 +9,7 @@ import (
 func main() {
 	r := gin.New()
 	NewIndexClass(r).Build()
-
+	NewUserClass(r).Build()
 	fmt.Println("http://127.0.0.1")
 	r.Run(":80")
 }
