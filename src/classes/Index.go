@@ -12,13 +12,9 @@ func NewIndexClass() *IndexClass {
 	return &IndexClass{}
 }
 
-func (this *IndexClass) GetIndex() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "index ok",
-		})
-	}
+func (this *IndexClass) GetIndex(ctx *gin.Context) string {
+	return "aaa"
 }
 func (this *IndexClass) Build(goft *goft.Goft) {
-	goft.Handle("GET", "/", this.GetIndex())
+	goft.Handle("GET", "/", this.GetIndex)
 }
