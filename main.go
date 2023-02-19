@@ -8,11 +8,11 @@ import (
 func main() {
 	goft.Ignite().
 		Mount(
-			"v1",
+			"/v1",
 			classes.NewIndexClass(),
 		).
 		Mount(
-			"v2",
+			"/v2",
 			classes.NewUserClass(),
 		).
 		Launch()
