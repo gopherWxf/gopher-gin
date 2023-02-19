@@ -12,14 +12,22 @@ type UserClass struct {
 func NewUserClass() *UserClass {
 	return &UserClass{}
 }
-func (this *UserClass) GetUser(ctx *gin.Context) string {
-	return "wxf"
+func (this *UserClass) UserTest(ctx *gin.Context) string {
+	return "User Test"
 }
-func (this *UserClass) Build(goft *goft.Goft) {
-	goft.Handle("GET", "/user", this.GetUser)
-	goft.Handle("GET", "/user2", this.UserDetail)
 
+func (this *UserClass) Build(goft *goft.Goft) {
+	goft.Handle("GET", "/test", this.UserTest)
+	goft.Handle("GET", "/user", this.UserDetail)
+	goft.Handle("GET", "/userlist", this.UserList)
 }
 func (this *UserClass) UserDetail(ctx *gin.Context) goft.Model {
 	return &models.UserModel{UserId: 2, UserName: "wxf"}
+}
+func (this *UserClass) UserList(ctx *gin.Context) goft.Models {
+	users := []*models.UserModel{
+		{UserId: 2, UserName: "wxf2"},
+		{UserId: 3, UserName: "wxf3"},
+	}
+	return goft.MakeModels(users)
 }
