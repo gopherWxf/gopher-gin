@@ -25,10 +25,8 @@ func (this *Goft) Mount(group string, classes ...IClass) *Goft {
 	return this
 }
 func (this *Goft) Handle(httpMethod, relativePath string, handler interface{}) *Goft {
-	if h, ok := handler.(func(ctx *gin.Context) string); ok {
-		this.g.Handle(httpMethod, relativePath, func(ctx *gin.Context) {
-			ctx.String(200, h(ctx))
-		})
+	if h := Convert(handler); h != nil {
+		this.g.Handle(httpMethod, relativePath, h)
 	}
 	return this
 }
