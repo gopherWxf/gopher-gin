@@ -1,5 +1,7 @@
 package goft
 
+import "github.com/gin-gonic/gin"
+
 type Fairing interface {
-	OnRequest() error
+	OnRequest(ctx *gin.Context) error
 }

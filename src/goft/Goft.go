@@ -30,7 +30,7 @@ func (this *Goft) Handle(httpMethod, relativePath string, handlers ...gin.Handle
 }
 func (this *Goft) Attach(f Fairing) *Goft {
 	this.Use(func(ctx *gin.Context) {
-		err := f.OnRequest()
+		err := f.OnRequest(ctx)
 		if err != nil {
 			ctx.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 		} else {
