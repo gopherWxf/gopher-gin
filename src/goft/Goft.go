@@ -11,7 +11,11 @@ type Goft struct {
 }
 
 func Ignite() *Goft {
-	return &Goft{Engine: gin.New()}
+	goft := &Goft{Engine: gin.New()}
+	//强迫加载的异常中间件
+	goft.Use(ErrorHandler())
+	//goft.Attach(middlewares.NewRecoverMid())
+	return goft
 }
 func (this *Goft) Launch() {
 	fmt.Println("http://127.0.0.1")

@@ -18,11 +18,14 @@ func (this *UserClass) UserTest(ctx *gin.Context) string {
 
 func (this *UserClass) Build(goft *goft.Goft) {
 	goft.Handle("GET", "/test", this.UserTest)
-	goft.Handle("GET", "/user", this.UserDetail)
+	goft.Handle("GET", "/user/:id", this.UserDetail)
 	goft.Handle("GET", "/userlist", this.UserList)
 }
 func (this *UserClass) UserDetail(ctx *gin.Context) goft.Model {
-	return &models.UserModel{UserId: 2, UserName: "wxf"}
+	user := models.NewUserModel()
+	err := ctx.BindUri(user)
+	goft.Error(err, "ID 参数 不合法")
+	return user
 }
 func (this *UserClass) UserList(ctx *gin.Context) goft.Models {
 	users := []*models.UserModel{
