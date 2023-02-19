@@ -8,7 +8,7 @@ import (
 var ResponderList []Responder
 
 func init() {
-	ResponderList = []Responder{new(StringResponder)}
+	ResponderList = []Responder{new(StringResponder), new(ModelResponder)}
 }
 
 type Responder interface {
@@ -21,6 +21,15 @@ func (this StringResponder) RespondTo() gin.HandlerFunc {
 		ctx.String(200, this(ctx))
 	}
 }
+
+type ModelResponder func(ctx *gin.Context) Model
+
+func (this ModelResponder) RespondTo() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ctx.JSON(200, this(ctx))
+	}
+}
+
 func Convert(handler interface{}) gin.HandlerFunc {
 	//StringResponder(  handler.(func(*gin.Context) string)  ).RespondTo()
 	h_ref := reflect.ValueOf(handler)
