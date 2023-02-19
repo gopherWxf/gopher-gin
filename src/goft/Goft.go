@@ -28,3 +28,14 @@ func (this *Goft) Handle(httpMethod, relativePath string, handlers ...gin.Handle
 	this.g.Handle(httpMethod, relativePath, handlers...)
 	return this
 }
+func (this *Goft) Attach(f Fairing) *Goft {
+	this.Use(func(ctx *gin.Context) {
+		err := f.OnRequest()
+		if err != nil {
+			ctx.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
+		} else {
+			ctx.Next()
+		}
+	})
+	return this
+}

@@ -3,10 +3,15 @@ package main
 import (
 	"github.com/gopherWxf/gopher-gin/src/classes"
 	"github.com/gopherWxf/gopher-gin/src/goft"
+	"github.com/gopherWxf/gopher-gin/src/middlewares"
 )
 
 func main() {
-	goft.Ignite().
+	goft.
+		Ignite().
+		Attach(
+			middlewares.NewUserMid(),
+		).
 		Mount(
 			"/v1",
 			classes.NewIndexClass(),
