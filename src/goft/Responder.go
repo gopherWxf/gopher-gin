@@ -32,6 +32,7 @@ func Convert(handler interface{}) gin.HandlerFunc {
 	return nil
 }
 
+// String Responder
 type StringResponder func(ctx *gin.Context) string
 
 func (this StringResponder) RespondTo() gin.HandlerFunc {
@@ -40,6 +41,7 @@ func (this StringResponder) RespondTo() gin.HandlerFunc {
 	}
 }
 
+// Model Responder
 type ModelResponder func(ctx *gin.Context) Model
 
 func (this ModelResponder) RespondTo() gin.HandlerFunc {
@@ -48,6 +50,7 @@ func (this ModelResponder) RespondTo() gin.HandlerFunc {
 	}
 }
 
+// Models Responder
 type ModelsResponder func(ctx *gin.Context) Models
 
 func (this ModelsResponder) RespondTo() gin.HandlerFunc {
