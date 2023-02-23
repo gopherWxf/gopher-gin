@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gopherWxf/gopher-gin/src/goft"
 	"github.com/gopherWxf/gopher-gin/src/models"
+	"gorm.io/gorm"
 )
 
 /*
@@ -26,8 +27,16 @@ func (this *ArticleClass) ArticleDetail(ctx *gin.Context) goft.Model {
 	news := models.NewArticleModel()
 	goft.Error(ctx.ShouldBindUri(news))
 	goft.Error(this.Table("mynews").Where("id=?", news.NewsID).Find(news).Error)
+	// 执行一个协程异步任务
+	goft.Task(this.UpdataViews, news.NewsID)
 	return news
 }
 func (this *ArticleClass) Build(goft *goft.Goft) {
 	goft.Handle("GET", "/article/:id", this.ArticleDetail)
+}
+func (this *ArticleClass) UpdataViews(params ...interface{}) {
+	this.
+		Table("mynews").
+		Where("id=?", params[0]).
+		Update("views", gorm.Expr("views+1"))
 }
