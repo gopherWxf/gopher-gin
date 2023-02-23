@@ -4,6 +4,7 @@ import (
 	"github.com/gopherWxf/gopher-gin/src/classes"
 	"github.com/gopherWxf/gopher-gin/src/goft"
 	"github.com/gopherWxf/gopher-gin/src/middlewares"
+	"log"
 )
 
 func main() {
@@ -25,5 +26,8 @@ func main() {
 			"/v3",
 			classes.NewArticleClass(),
 		).
+		Task("0/3 * * * * *", func() {
+			log.Println("执行定时任务")
+		}).
 		Launch()
 }
