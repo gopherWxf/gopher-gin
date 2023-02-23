@@ -10,13 +10,15 @@ import (
 type UserClass struct {
 	//*goft.GormAdapter
 	*goft.XOrmAdapter
+
+	Age *goft.Value `prefix:"user.age"`
 }
 
 func NewUserClass() *UserClass {
 	return &UserClass{}
 }
 func (this *UserClass) UserTest(ctx *gin.Context) string {
-	return "User Test"
+	return "User Test" + this.Age.String()
 }
 
 func (this *UserClass) Build(goft *goft.Goft) {

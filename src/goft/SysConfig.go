@@ -5,12 +5,14 @@ import (
 	"log"
 )
 
+type UserConfig map[string]interface{}
 type ServerConfig struct {
 	Port int32
 	Name string
 }
 type SysConfig struct {
 	Server *ServerConfig
+	Config UserConfig
 }
 
 func NewSysConfig() *SysConfig {

@@ -1,3 +1,8 @@
 server:
   port: 81
   name: myweb
+
+config:
+  user:
+    score: 100
+    age: 19

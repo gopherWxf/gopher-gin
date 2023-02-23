@@ -42,14 +42,20 @@ func (this *Goft) getProp(t reflect.Type) interface{} {
 }
 func (this *Goft) setProp(class IClass) {
 	valClass := reflect.ValueOf(class).Elem()
+	typeClass := reflect.TypeOf(class).Elem()
 	for i := 0; i < valClass.NumField(); i++ {
-		f := valClass.Field(i)
-		if !f.IsNil() || f.Kind() != reflect.Ptr {
+		vFiled := valClass.Field(i)
+		tFiled := typeClass.Field(i)
+		if !vFiled.IsNil() || vFiled.Kind() != reflect.Ptr {
 			continue
 		}
-		if p := this.getProp(f.Type()); p != nil {
-			f.Set(reflect.New(f.Type().Elem()))
-			f.Elem().Set(reflect.ValueOf(p).Elem())
+		if p := this.getProp(vFiled.Type()); p != nil {
+			vFiled.Set(reflect.New(vFiled.Type().Elem()))
+			vFiled.Elem().Set(reflect.ValueOf(p).Elem())
+			//判断是否是注解
+			if IsAnnotation(vFiled.Type()) {
+				p.(Annotation).SetTag(tFiled.Tag)
+			}
 		}
 	}
 }
