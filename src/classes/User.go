@@ -1,13 +1,15 @@
 package classes
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/gopherWxf/gopher-gin/src/goft"
 	"github.com/gopherWxf/gopher-gin/src/models"
 )
 
 type UserClass struct {
-	*goft.GormAdapter
+	//*goft.GormAdapter
+	*goft.XOrmAdapter
 }
 
 func NewUserClass() *UserClass {
@@ -26,9 +28,12 @@ func (this *UserClass) UserDetail(ctx *gin.Context) goft.Model {
 	user := models.NewUserModel()
 	err := ctx.BindUri(user)
 	goft.Error(err, "ID 参数 不合法")
-	err = this.Table("users").
+	has, err := this.Table("users").
 		Where("user_id=?", user.UserId).
-		Find(user).Error
+		Get(user)
+	if !has || err != nil {
+		goft.Error(errors.New("not found or err"))
+	}
 	goft.Error(err)
 
 	return user

@@ -9,7 +9,7 @@ import (
 func main() {
 	goft.
 		Ignite().
-		DB(goft.NewGormAdapter()).
+		Beans(goft.NewGormAdapter(), goft.NewXOrmAdapter()).
 		Attach(
 			middlewares.NewUserMid(),
 		).

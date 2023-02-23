@@ -70,7 +70,7 @@ func (this *Goft) Attach(f Fairing) *Goft {
 	})
 	return this
 }
-func (this *Goft) DB(dba interface{}) *Goft {
-	this.props = append(this.props, dba)
+func (this *Goft) Beans(beans ...interface{}) *Goft {
+	this.props = append(this.props, beans...)
 	return this
 }
