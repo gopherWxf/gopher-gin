@@ -3,8 +3,8 @@ package classes
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/gopherWxf/gopher-gin/src/goft"
-	"github.com/gopherWxf/gopher-gin/src/models"
+	"github.com/gopherWxf/gopher-gin/goft"
+	"github.com/gopherWxf/gopher-gin/models"
 )
 
 type UserClass struct {

@@ -2,7 +2,7 @@ package classes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/gopherWxf/gopher-gin/src/goft"
+	"github.com/gopherWxf/gopher-gin/goft"
 )
 
 type IndexClass struct {

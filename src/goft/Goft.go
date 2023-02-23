@@ -20,8 +20,9 @@ func Ignite() *Goft {
 	return goft
 }
 func (this *Goft) Launch() {
-	fmt.Println("http://127.0.0.1")
-	this.Run(":80")
+	config := InitConfig()
+	fmt.Printf("http://127.0.0.1:%d\n", config.Server.Port)
+	this.Run(fmt.Sprintf(":%d", config.Server.Port))
 }
 func (this *Goft) Mount(group string, classes ...IClass) *Goft {
 	this.g = this.Group(group)

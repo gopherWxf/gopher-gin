@@ -20,7 +20,7 @@ flowsvr/log/*
 flowsvr/bin/*
 flowsvr/src/ctrl/log/*
 flowsvr/src/ctrl/log
-.idea/
+../.idea/
 .idea/*
 .DS_Store
 
