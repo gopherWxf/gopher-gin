@@ -1,6 +1,10 @@
 package goft
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+	"strings"
+)
 
 // 注解
 type Annotation interface {
@@ -24,12 +28,27 @@ func init() {
 }
 
 type Value struct {
-	tag reflect.StructTag
+	tag         reflect.StructTag
+	Beanfactory *BeanFactory
 }
 
 func (this *Value) SetTag(tag reflect.StructTag) {
 	this.tag = tag
 }
 func (this *Value) String() string {
-	return "21"
+	getPrefix := this.tag.Get("prefix")
+	if getPrefix == "" {
+		return ""
+	}
+	prefix := strings.Split(getPrefix, ".")
+	if config := this.Beanfactory.GetBean(new(SysConfig)); config != nil {
+		getValue := GetConfigValue(config.(*SysConfig).Config, prefix, 0)
+		if getValue != nil {
+			return fmt.Sprintf("%v", getValue)
+		} else {
+			return ""
+		}
+	} else {
+		return ""
+	}
 }
