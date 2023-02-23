@@ -13,6 +13,7 @@ func NewIndexClass() *IndexClass {
 }
 
 func (this *IndexClass) GetIndex(ctx *gin.Context) goft.View {
+	ctx.Set("name", "wxf")
 	return "index"
 }
 func (this *IndexClass) Build(goft *goft.Goft) {

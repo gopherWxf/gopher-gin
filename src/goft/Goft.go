@@ -3,6 +3,7 @@ package goft
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gopherWxf/gopher-gin/funcs"
 )
 
 type Goft struct {
@@ -20,6 +21,7 @@ func Ignite() *Goft {
 	config := InitConfig()
 	goft.beanFactory.setBean(config)
 	if config.Server.Html != "" {
+		goft.FuncMap = funcs.FuncMap
 		goft.LoadHTMLGlob(config.Server.Html)
 	}
 	return goft
