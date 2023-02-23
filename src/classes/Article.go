@@ -5,6 +5,7 @@ import (
 	"github.com/gopherWxf/gopher-gin/src/goft"
 	"github.com/gopherWxf/gopher-gin/src/models"
 	"gorm.io/gorm"
+	"log"
 )
 
 /*
@@ -28,15 +29,25 @@ func (this *ArticleClass) ArticleDetail(ctx *gin.Context) goft.Model {
 	goft.Error(ctx.ShouldBindUri(news))
 	goft.Error(this.Table("mynews").Where("id=?", news.NewsID).Find(news).Error)
 	// 执行一个协程异步任务
-	goft.Task(this.UpdataViews, news.NewsID)
+	goft.Task(this.UpdateViews, this.UpdateViewsDone, news.NewsID)
+	goft.Task(this.UpdateViews, func() {
+		this.UpdateViewsDoneParams(news.NewsID)
+	}, news.NewsID)
+
 	return news
 }
 func (this *ArticleClass) Build(goft *goft.Goft) {
 	goft.Handle("GET", "/article/:id", this.ArticleDetail)
 }
-func (this *ArticleClass) UpdataViews(params ...interface{}) {
+func (this *ArticleClass) UpdateViews(params ...interface{}) {
 	this.
 		Table("mynews").
 		Where("id=?", params[0]).
 		Update("views", gorm.Expr("views+1"))
+}
+func (this *ArticleClass) UpdateViewsDone() {
+	log.Println("点击量增加结束")
+}
+func (this *ArticleClass) UpdateViewsDoneParams(id int) {
+	log.Println("点击量增加结束", id)
 }

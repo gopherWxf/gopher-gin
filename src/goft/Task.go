@@ -11,14 +11,29 @@ func init() {
 	chlist := getTaskList()
 	go func() {
 		for t := range chlist {
-			t.Exec()
+			doTask(t)
 		}
+	}()
+}
+func doTask(t *TaskExecutor) {
+	go func() {
+		defer func() {
+			if t.callback != nil {
+				t.callback()
+			}
+		}()
+		t.Exec()
 	}()
 }
 
 type TaskExecutor struct {
-	f      TaskFunc
-	params []interface{}
+	f        TaskFunc
+	params   []interface{}
+	callback func()
+}
+
+func NewTaskExecutor(f TaskFunc, params []interface{}, callback func()) *TaskExecutor {
+	return &TaskExecutor{f: f, params: params, callback: callback}
 }
 
 func getTaskList() chan *TaskExecutor {
@@ -28,12 +43,14 @@ func getTaskList() chan *TaskExecutor {
 	return taskList
 }
 
-func NewTaskExecutor(f TaskFunc, params []interface{}) *TaskExecutor {
-	return &TaskExecutor{f: f, params: params}
-}
 func (this *TaskExecutor) Exec() {
 	this.f(this.params...)
 }
-func Task(f TaskFunc, params ...interface{}) {
-	getTaskList() <- NewTaskExecutor(f, params)
+func Task(f TaskFunc, callback func(), params ...interface{}) {
+	if f == nil {
+		return
+	}
+	go func() {
+		getTaskList() <- NewTaskExecutor(f, params, callback)
+	}()
 }
