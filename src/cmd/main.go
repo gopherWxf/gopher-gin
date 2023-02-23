@@ -21,5 +21,9 @@ func main() {
 			"/v2",
 			classes.NewUserClass(),
 		).
+		Mount(
+			"/v3",
+			classes.NewArticleClass(),
+		).
 		Launch()
 }
