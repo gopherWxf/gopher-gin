@@ -7,6 +7,7 @@ import (
 )
 
 type UserClass struct {
+	*goft.GormAdapter
 }
 
 func NewUserClass() *UserClass {
@@ -25,6 +26,11 @@ func (this *UserClass) UserDetail(ctx *gin.Context) goft.Model {
 	user := models.NewUserModel()
 	err := ctx.BindUri(user)
 	goft.Error(err, "ID 参数 不合法")
+	err = this.Table("users").
+		Where("user_id=?", user.UserId).
+		Find(user).Error
+	goft.Error(err)
+
 	return user
 }
 func (this *UserClass) UserList(ctx *gin.Context) goft.Models {

@@ -3,11 +3,13 @@ package goft
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"reflect"
 )
 
 type Goft struct {
 	*gin.Engine
-	g *gin.RouterGroup
+	g   *gin.RouterGroup
+	dba interface{}
 }
 
 func Ignite() *Goft {
@@ -25,6 +27,13 @@ func (this *Goft) Mount(group string, classes ...IClass) *Goft {
 	this.g = this.Group(group)
 	for _, class := range classes {
 		class.Build(this)
+		valClass := reflect.ValueOf(class).Elem()
+		if valClass.NumField() > 0 {
+			if this.dba != nil {
+				valClass.Field(0).Set(reflect.New(valClass.Field(0).Type().Elem()))
+				valClass.Field(0).Elem().Set(reflect.ValueOf(this.dba).Elem())
+			}
+		}
 	}
 	return this
 }
@@ -43,5 +52,9 @@ func (this *Goft) Attach(f Fairing) *Goft {
 			ctx.Next()
 		}
 	})
+	return this
+}
+func (this *Goft) DB(dba interface{}) *Goft {
+	this.dba = dba
 	return this
 }
