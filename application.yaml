@@ -1,6 +1,7 @@
 server:
   port: 81
   name: myweb
+  html: views/*
 
 config:
   user:

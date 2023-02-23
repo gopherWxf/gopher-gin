@@ -12,11 +12,16 @@ type Goft struct {
 }
 
 func Ignite() *Goft {
+	//gin.SetMode(gin.ReleaseMode)
 	goft := &Goft{Engine: gin.New(), beanFactory: NewBeanFactory()}
 	//强迫加载的异常中间件
 	goft.Use(ErrorHandler())
 	//整个配置加载进bean中
-	goft.beanFactory.setBean(InitConfig())
+	config := InitConfig()
+	goft.beanFactory.setBean(config)
+	if config.Server.Html != "" {
+		goft.LoadHTMLGlob(config.Server.Html)
+	}
 	return goft
 }
 func (this *Goft) Launch() {

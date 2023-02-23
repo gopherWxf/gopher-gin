@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/gopherWxf/gopher-gin/classes"
-	"github.com/gopherWxf/gopher-gin/goft"
-	"github.com/gopherWxf/gopher-gin/middlewares"
+	"github.com/gopherWxf/gopher-gin/src/classes"
+	"github.com/gopherWxf/gopher-gin/src/goft"
+	"github.com/gopherWxf/gopher-gin/src/middlewares"
 )
 
 func main() {

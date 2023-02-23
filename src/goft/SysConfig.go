@@ -9,6 +9,7 @@ type UserConfig map[string]interface{}
 type ServerConfig struct {
 	Port int32
 	Name string
+	Html string
 }
 type SysConfig struct {
 	Server *ServerConfig

@@ -12,6 +12,7 @@ func init() {
 		new(StringResponder),
 		new(ModelResponder),
 		new(ModelsResponder),
+		new(ViewResponder),
 	}
 }
 
@@ -57,5 +58,16 @@ func (this ModelsResponder) RespondTo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		ctx.Writer.Header().Set("Content-Type", "application/json")
 		ctx.Writer.WriteString(string(this(ctx)))
+	}
+}
+
+// View Responder
+type View string
+
+type ViewResponder func(ctx *gin.Context) View
+
+func (this ViewResponder) RespondTo() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ctx.HTML(200, string(this(ctx)+".html"), nil)
 	}
 }
